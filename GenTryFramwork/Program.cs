@@ -7,10 +7,28 @@ using System.IO;
 
 namespace GenTryFramwork
 {
-    internal class Program
+     static internal class Program
     {
+       static bool GoodDrive = false;
+       static char DriveLetter;
         private static void Main(string[] args)
         {
+
+            do
+            {
+                Console.WriteLine("Which Drive Letter Should it go into");
+                char DriveLetter = Char.ToUpper(Console.ReadKey().KeyChar);
+                if (Directory.Exists(DriveLetter + ":\\"))
+                {
+                    GoodDrive = true;
+                }
+                else
+                {
+                    Console.WriteLine("Not Valid Drive Letter");
+                }
+            } while (GoodDrive != true);
+
+
             Dictionary<string, string> Daytrans = new Dictionary<string, string>();
 
             #region dict
@@ -50,7 +68,7 @@ namespace GenTryFramwork
                     }
                     else { weekDayIndex++; }
                     Bitmap BMP = ImgGen.Drawing(textToBeWritten);
-                    BMP.Save($@"A:\imgdirectory\{i + 1}\{n}.jpg", ImageFormat.Jpeg); // You can rename it to whatever you like
+                    BMP.Save($@"{DriveLetter}:\imgdirectory\{i + 1}\{n}.jpg", ImageFormat.Jpeg); // You can rename it to whatever you like
                 }
             }
         }
