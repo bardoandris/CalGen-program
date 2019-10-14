@@ -17,8 +17,8 @@ namespace GenTryFramwork
             do
             {
                 Console.WriteLine("Which Drive Letter Should it go into");
-                char DriveLetter = Char.ToUpper(Console.ReadKey().KeyChar);
-                if (Directory.Exists(DriveLetter + ":\\"))
+                DriveLetter = Char.ToUpper(Console.ReadKey().KeyChar);
+                if (Directory.Exists(DriveLetter + @":\"))
                 {
                     GoodDrive = true;
                 }
@@ -43,20 +43,21 @@ namespace GenTryFramwork
 
             #endregion dict
 
-            Directory.CreateDirectory(@"A:\imgdirectory");
+            Directory.CreateDirectory(DriveLetter + @":\imgdirectory");
             for (int i = 1; i <= 12; i++)
             {
-                Directory.CreateDirectory("A:\\imgdirectory\\" + Convert.ToString(i));
+                Directory.CreateDirectory(DriveLetter + ":\\imgdirectory\\" + Convert.ToString(i));
             }
             Generator ImgGen = new Generator();
             CultureInfo CI = new CultureInfo("hu-HU");
-            DateTime janFirst = new DateTime(DateTime.Today.Year, 1, 1);
+            DateTime janFirst = new DateTime(DateTime.Today.Year + 1, 1, 1);        // VIGYÁZZ A +1-EL!!!
+            int NumofDays = CI.Calendar.GetDaysInYear(DateTime.Today.Year + 1);
             string[] daysOfWeek = CI.DateTimeFormat.DayNames;
             int weekDayIndex = Array.IndexOf(daysOfWeek, Daytrans[janFirst.DayOfWeek.ToString()]);
             string[] months = CI.DateTimeFormat.MonthNames;
             //Console.Write(janFirst.DayOfWeek.ToString());
             int[] calendarIndex = ImgGen.CalendarIndex;
-
+            int DayIndex = 1;
             for (int i = 0; i <= 11; i++)
             {
                 for (int n = 1; n <= calendarIndex[i]; n++)
@@ -68,10 +69,9 @@ namespace GenTryFramwork
                     }
                     else { weekDayIndex++; }
                     Bitmap BMP = ImgGen.Drawing(textToBeWritten);
-                    BMP.Save($@"{DriveLetter}:\imgdirectory\{i + 1}\{n}.jpg", ImageFormat.Jpeg); // You can rename it to whatever you like
+                    BMP.Save($@"{DriveLetter}:\imgdirectory\{DayIndex++ }.jpg", ImageFormat.Jpeg); // You can rename it to whatever you like
                 }
-            }
-        }
+            }        }
     }
 
     internal class Generator
@@ -103,7 +103,7 @@ namespace GenTryFramwork
             stringFormat.LineAlignment = StringAlignment.Center;
             for (int i = 1; i <= 12; i++)
             {
-                calendarIndex[i - 1] = CI.Calendar.GetDaysInMonth(DateTime.Today.Year, i);
+                calendarIndex[i - 1] = CI.Calendar.GetDaysInMonth(DateTime.Today.Year + 1, i);
             }
             string[] months = CI.DateTimeFormat.MonthNames;
         }
