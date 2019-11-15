@@ -4,11 +4,16 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace GenTryFramwork
 {
      static internal class Program
     {
+        static string PicString(int PicNum) =>
+            PicNum < 10 ? "00"+ Convert.ToString(PicNum) :
+            PicNum < 100 ? "0" + Convert.ToString(PicNum) : Convert.ToString(PicNum);
+
        static bool GoodDrive = false;
        static char DriveLetter;
         private static void Main(string[] args)
@@ -69,7 +74,7 @@ namespace GenTryFramwork
                     }
                     else { weekDayIndex++; }
                     Bitmap BMP = ImgGen.Drawing(textToBeWritten);
-                    BMP.Save($@"{DriveLetter}:\imgdirectory\{DayIndex++ }.jpg", ImageFormat.Jpeg); // You can rename it to whatever you like
+                    BMP.Save($@"{DriveLetter}:\imgdirectory\{PicString(DayIndex++) }.jpg", ImageFormat.Jpeg); // You can rename it to whatever you like
                 }
             }        }
     }
@@ -115,6 +120,17 @@ namespace GenTryFramwork
             graphics.Clear(Color.White);
             Brush TxTBrush = new SolidBrush(Color.Black);
             graphics.DrawString(date, font, TxTBrush, 670, 170, stringFormat);
+            int increment = 280;
+            Rectangle rect = new Rectangle();
+            rect.Width = 2000;
+            rect.Height = 15;
+            rect.X = 230;
+            for (int i = 0; i < 11; i++)
+            { 
+                rect.Y = 550 + i * increment;
+                graphics.FillRectangle(Brushes.Gray, rect);
+        
+            }
             return CurrentIMG;
         }
     }
