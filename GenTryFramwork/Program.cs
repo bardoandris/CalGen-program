@@ -15,7 +15,7 @@ namespace GenTryFramwork
             PicNum < 100 ? "0" + Convert.ToString(PicNum) : Convert.ToString(PicNum);
 
        static bool GoodDrive = false;
-       static char DriveLetter;
+        static char DriveLetter;
         private static void Main(string[] args)
         {
 
@@ -75,7 +75,9 @@ namespace GenTryFramwork
                     else { weekDayIndex++; }
                     Bitmap BMP = ImgGen.Drawing(textToBeWritten);
                     BMP.Save($@"{DriveLetter}:\imgdirectory\{PicString(DayIndex++) }.jpg", ImageFormat.Jpeg); // You can rename it to whatever you like
+                    
                 }
+
             }        }
     }
 
@@ -87,6 +89,8 @@ namespace GenTryFramwork
         private Bitmap CurrentIMG;
         private Graphics graphics;
         public Font font;
+        Brush TxTBrush;
+        Rectangle rect;
 
         public int[] CalendarIndex
         {
@@ -95,7 +99,19 @@ namespace GenTryFramwork
 
         public Generator()
         {
+            rect = new Rectangle();
+            rect.Width = 2000;
+            rect.Height = 15;
+            rect.X = 230;
+
+            CurrentIMG = new Bitmap(2480, 3508);
+            graphics = Graphics.FromImage(CurrentIMG);
+            
+           
+            TxTBrush = new SolidBrush(Color.Black);
+            
             CultureInfo CI = new CultureInfo("hu-HU");
+            
             FontFamily fontFamily = new FontFamily("Arial");
             font = new Font(
               fontFamily,
@@ -115,19 +131,13 @@ namespace GenTryFramwork
 
         public Bitmap Drawing(string date)
         {
-            CurrentIMG = new Bitmap(2480, 3508);
-            graphics = Graphics.FromImage(CurrentIMG);
-            graphics.Clear(Color.White);
-            Brush TxTBrush = new SolidBrush(Color.Black);
+
+            
+            graphics.Clear(Color.White);            
             graphics.DrawString(date, font, TxTBrush, 670, 170, stringFormat);
-            int increment = 280;
-            Rectangle rect = new Rectangle();
-            rect.Width = 2000;
-            rect.Height = 15;
-            rect.X = 230;
             for (int i = 0; i < 11; i++)
             { 
-                rect.Y = 550 + i * increment;
+                rect.Y = 550 + i * 280;
                 graphics.FillRectangle(Brushes.Gray, rect);
         
             }
