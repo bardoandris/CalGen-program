@@ -9,34 +9,17 @@ namespace GenTryFramwork
 {
 	static internal class Program
 	{
-		static string[][] dates = new string[12][];
+		static readonly string[][] dates = new string[12][];
 
 		static int DayCounter = 1;
 		static string PicString(int PicNum) =>
 			PicNum < 10 ? "00" + Convert.ToString(PicNum) :
 			PicNum < 100 ? "0" + Convert.ToString(PicNum) : Convert.ToString(PicNum);
 
-		static bool GoodDrive = false;
-		static char DriveLetter;
 		private static void Main(string[] args)
 		{
 
-			do //assigns disk letter (dont do c:)
-			{
-				Console.WriteLine("Which Drive Letter Should it go into");
-				DriveLetter = Char.ToUpper(Console.ReadKey().KeyChar);
-				if (Directory.Exists(DriveLetter + @":\"))
-				{
-					GoodDrive = true;
-				}
-				else
-				{
-					Console.WriteLine("Not Valid Drive Letter");
-				}
-			} while (GoodDrive != true);
-
-			StringFiller SF = new StringFiller(ref dates);
-
+			Directory.CreateDirectory("images");
 
 			Generator ImgGen = new Generator();
 
@@ -44,7 +27,7 @@ namespace GenTryFramwork
 			{
 				for (int x = 0; x < dates[i].Length; x++)
 				{
-					ImgGen.Drawing(dates[i][x]).Save($@"{DriveLetter}:\imgdirectory\{PicString(DayCounter++)}.png", ImageFormat.Png);
+					ImgGen.Drawing(dates[i][x]).Save($@"images\{PicString(DayCounter++)}.png", ImageFormat.Png);
 				}
 			}
 
