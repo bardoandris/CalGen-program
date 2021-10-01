@@ -20,7 +20,7 @@ namespace GenTryFramwork
 		{
 
 			Directory.CreateDirectory("images");
-
+			StringFiller sf = new StringFiller(ref dates);
 			Generator ImgGen = new Generator();
 
 			for (int i = 0; i < dates.Length; i++)
