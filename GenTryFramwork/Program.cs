@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -9,6 +10,11 @@ namespace GenTryFramwork
 {
 	static internal class Program
 	{
+		static CultureInfo CI = new CultureInfo("hu-HU");
+		static DateTime JanFirst = new DateTime(DateTime.Today.Year, 01, 01);
+		static string namesFile = "nevek.txt";
+		public static List<string> names = new List<string>(File.ReadAllLines(namesFile));
+		static int NextYear = DateTime.Today.Year + 1;
 		static readonly string[][] dates = new string[12][];
 
 		static int DayCounter = 1;
@@ -20,14 +26,14 @@ namespace GenTryFramwork
 		{
 
 			Directory.CreateDirectory("images");
-			StringFiller sf = new StringFiller(ref dates);
+			StringFiller sf = new StringFiller(dates);
 			Generator ImgGen = new Generator();
 
 			for (int i = 0; i < dates.Length; i++)
 			{
 				for (int x = 0; x < dates[i].Length; x++)
 				{
-					ImgGen.Drawing(dates[i][x]).Save($@"images\{PicString(DayCounter++)}.png", ImageFormat.Png);
+					ImgGen.Drawing(dates[i][x], (int)(new DateTime(NextYear,i,x) - JanFirst).TotalDays).Save($@"images\{PicString(DayCounter++)}.png", ImageFormat.Png);
 				}
 			}
 
@@ -66,7 +72,7 @@ namespace GenTryFramwork
 			FontFamily fontFamily = new FontFamily("Arial");
 			font = new Font(
 			  fontFamily,
-			  130,
+			  110,
 			  FontStyle.Regular,
 			  GraphicsUnit.Pixel
 			  );
@@ -80,12 +86,12 @@ namespace GenTryFramwork
 			string[] months = CI.DateTimeFormat.MonthNames;
 		}
 
-		public Bitmap Drawing(string date)
+		public Bitmap Drawing(string date, int dayNumber)
 		{
 
 
 			graphics.Clear(Color.White);
-			graphics.DrawString(date, font, TxTBrush, 670, 170, stringFormat);
+			graphics.DrawString(date+ $" ({Program.names[dayNumber]})", font, TxTBrush, 670, 170, stringFormat);
 			for (int i = 0; i < 11; i++)
 			{
 				rect.Y = 550 + i * 280;

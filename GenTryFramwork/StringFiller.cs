@@ -14,7 +14,7 @@ namespace GenTryFramwork
 		Weekday<string> WD;
 		string[] monthnames;
 
-		public StringFiller(ref string[][] CalendarStrings)
+		public StringFiller(string[][] CalendarStrings)
 		{
 			Dictionary<string, string> Daytrans = new Dictionary<string, string>();
 
