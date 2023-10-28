@@ -10,21 +10,18 @@ namespace GenTryFramwork
 {
 	static internal class Program
 	{
-		static CultureInfo CI = new CultureInfo("hu-HU");
-		static DateTime JanFirst = new DateTime(DateTime.Today.Year, 01, 01);
-		static string namesFile = "nevek.txt";
+		static string namesFile = "./Helper/format-namedays/names.txt";
 		public static List<string> names = new List<string>(File.ReadAllLines(namesFile));
 		static int NextYear = DateTime.Today.Year + 1;
 		static readonly string[][] dates = new string[12][];
 
-		static int DayCounter = 1;
-		static string PicString(int PicNum) =>
-			PicNum < 10 ? "00" + Convert.ToString(PicNum) :
-			PicNum < 100 ? "0" + Convert.ToString(PicNum) : Convert.ToString(PicNum);
-
+		
 		private static void Main(string[] args)
 		{
-
+			for (int i = 1; i < 13; i++)
+			{
+				Directory.CreateDirectory($"./images/{i}");
+			}
 			Directory.CreateDirectory("images");
 			StringFiller sf = new StringFiller(dates);
 			Generator ImgGen = new Generator();
@@ -33,7 +30,7 @@ namespace GenTryFramwork
 			{
 				for (int x = 0; x < dates[i].Length; x++)
 				{
-					ImgGen.Drawing(dates[i][x], (int)(new DateTime(NextYear,i,x) - JanFirst).TotalDays).Save($@"images\{PicString(DayCounter++)}.png", ImageFormat.Png);
+					ImgGen.Drawing(dates[i][x], new DateTime(NextYear, i + 1, x + 1).DayOfYear).Save($@"images\{i + 1}\{x + 1}.jpeg", ImageFormat.Jpeg);
 				}
 			}
 
@@ -45,21 +42,23 @@ namespace GenTryFramwork
 
 	class Generator
 	{
-		private StringFormat stringFormat;
+		private StringFormat stringFormat = new StringFormat();
 		private Bitmap CurrentIMG;
 		private Graphics graphics;
 		public Font font;
-		Brush TxTBrush;
-		Rectangle rect;
+		readonly Brush TxTBrush;
+		Rectangle rectangle;
 
 		public int[] CalendarIndex { get; } = new int[12];
 
 		public Generator()
 		{
-			rect = new Rectangle();
-			rect.Width = 2000;
-			rect.Height = 15;
-			rect.X = 230;
+			rectangle = new Rectangle()
+			{
+				Width = 2000,
+				Height = 15,
+				X = 230
+			};
 
 			CurrentIMG = new Bitmap(2480, 3508);
 			graphics = Graphics.FromImage(CurrentIMG);
@@ -91,11 +90,11 @@ namespace GenTryFramwork
 
 
 			graphics.Clear(Color.White);
-			graphics.DrawString(date+ $" ({Program.names[dayNumber]})", font, TxTBrush, 670, 170, stringFormat);
+			graphics.DrawString(date + $" ({Program.names[dayNumber - 1]})", font, TxTBrush, 450, 170, stringFormat);
 			for (int i = 0; i < 11; i++)
 			{
-				rect.Y = 550 + i * 280;
-				graphics.FillRectangle(Brushes.Gray, rect);
+				rectangle.Y = 550 + i * 280;
+				graphics.FillRectangle(Brushes.Gray, rectangle);
 
 			}
 			return CurrentIMG;

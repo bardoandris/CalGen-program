@@ -9,8 +9,7 @@ namespace GenTryFramwork
 	{
 		CultureInfo CI;
 		DateTime janFirst;
-		string[] daysOfWeek;
-		int weekDayIndex;
+		
 		Weekday<string> WD;
 		string[] monthnames;
 
@@ -32,7 +31,6 @@ namespace GenTryFramwork
 			CI = new CultureInfo("hu-HU");
 
 			janFirst = new DateTime(DateTime.Today.Year + 1, 1, 1);        // VIGYÁZZ A +1-EL!!! // PLUS ONE, THEREFORE 
-			daysOfWeek = CI.DateTimeFormat.DayNames;                       //SETS NEXT CALENDAR YEAR
 			WD = new Weekday<string>(CI.DateTimeFormat.DayNames, Daytrans[janFirst.DayOfWeek.ToString()]);
 			monthnames = CI.DateTimeFormat.MonthNames;
 			for (int i = 0; i < 12; i++)

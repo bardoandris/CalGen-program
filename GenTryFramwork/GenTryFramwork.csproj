@@ -74,6 +74,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Helper\format-namedays\.vs\format-namedays\FileContentIndex\068da9c9-74fd-4446-b486-15a03a7265c9.vsidx" />
+    <None Include="Helper\format-namedays\.vs\format-namedays\FileContentIndex\54c0a85d-e02e-406e-9b63-d8e72891fe88.vsidx" />
+    <None Include="Helper\format-namedays\.vs\format-namedays\FileContentIndex\read.lock" />
+    <None Include="Helper\format-namedays\.vs\format-namedays\v17\.wsuo" />
+    <None Include="Helper\format-namedays\.vs\slnx.sqlite" />
+    <None Include="Helper\format-namedays\.vs\VSWorkspaceState.json" />
+    <None Include="Helper\format-namedays\note.ipynb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Helper\format-namedays\names.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Helper\format-namedays\text.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helper\format-namedays\.vs\format-namedays\FileContentIndex\merges\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
