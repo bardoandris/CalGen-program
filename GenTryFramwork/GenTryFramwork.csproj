@@ -80,13 +80,18 @@
     <None Include="Helper\format-namedays\.vs\format-namedays\v17\.wsuo" />
     <None Include="Helper\format-namedays\.vs\slnx.sqlite" />
     <None Include="Helper\format-namedays\.vs\VSWorkspaceState.json" />
+    <None Include="Helper\format-namedays\main.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Helper\format-namedays\note.ipynb" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Helper\format-namedays\names.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Helper\format-namedays\text.txt" />
+    <EmbeddedResource Include="Helper\format-namedays\text.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helper\format-namedays\.vs\format-namedays\FileContentIndex\merges\" />

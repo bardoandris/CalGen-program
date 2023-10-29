@@ -4,12 +4,17 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using System.Diagnostics;
+using System.Runtime;
+using Microsoft.SqlServer.Server;
+using System.Runtime.Remoting.Messaging;
 
 
 namespace GenTryFramwork
 {
 	static internal class Program
 	{
+
 		static string namesFile = "./Helper/format-namedays/names.txt";
 		public static List<string> names = new List<string>(File.ReadAllLines(namesFile));
 		static int NextYear = DateTime.Today.Year + 1;
@@ -18,6 +23,9 @@ namespace GenTryFramwork
 		
 		private static void Main(string[] args)
 		{
+			if (runNameDayScrpt() == 1) {
+				Environment.Exit(1);
+			}
 			for (int i = 1; i < 13; i++)
 			{
 				Directory.CreateDirectory($"./images/{i}");
@@ -36,6 +44,24 @@ namespace GenTryFramwork
 
 
 
+		}
+		private static int runNameDayScrpt()
+		{
+			ProcessStartInfo startInfo = new ProcessStartInfo($"python3", " Helper\\format-namedays\\main.py");
+			startInfo.UseShellExecute = true;
+			Console.WriteLine("Starting python nameday script");
+			try
+			{
+			Process.Start(startInfo).WaitForExit();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				Console.WriteLine(ex.StackTrace);
+				Console.WriteLine("Script futtatása nem járt sikerrel! kilépés...");
+				return 1;
+			}
+			return 0;
 		}
 	}
 

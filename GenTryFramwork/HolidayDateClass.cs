@@ -1,7 +1,7 @@
 ﻿using System;
 namespace GenTryFramwork
 {
-	public static class HolidayDateClass // Returns DateTimes of Easter Sunday, and whitday
+	public static class HolidayDateClass // Returns DateTimes of Easter Sunday, and whitday (pünkösd)
 	{
 		public static DateTime EasterSunday(int year)
 		{
